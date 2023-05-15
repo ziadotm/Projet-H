@@ -1,0 +1,202 @@
+<html>
+    <head>
+    <style>
+    #div2{
+        max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #div2 label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    #div2 input[type="text"],
+    #div2 input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    #div2 input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: rgb(41, 135, 169);
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    #div0{
+        max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #div0 button {
+        width: 100%;
+      padding: 10px;
+      background-color: rgb(41, 135, 169);
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    #div0 input[type="text"],
+    #div0 input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    #div1{
+        max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #div1 button {
+        width: 100%;
+      padding: 10px;
+      background-color: rgb(41, 135, 169);
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    #div1 th{
+        max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgb(41, 135, 169);
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    } 
+   
+    
+    </style>
+    </head>
+    <body>
+      <div class="cc">
+       <center> 
+        
+        <div id="div0">
+            <input type="text" id="in1" placeholder="Enter you name"><br>
+            <input type="password" id="in2" placeholder="Enter a password"><br>
+            <span id="s1" style="color: rgb(32, 5, 86);"></span><br>
+            <button onclick="add()">Add user</button>
+        </div>
+
+       
+
+        <div id="div2">
+            <form action="home.html" onsubmit="return login()">
+                <label for="in3">UserName:</label>
+                <input type="text" id="in3"><br>
+                <label for="in4">Password:</label>
+                <input type="password" id="in4"><br>
+                <span id="s2" style="color: red;"></span><br>
+                <input type="checkbox" onclick="showPass()"> Show password
+                <input type="submit" value="login">
+            </form>
+        </div>
+ <div id="div1">
+            <button onclick="show()">Show users in table</button><br><br>
+            <table border="2px" id="table1" >
+                    <tr><th>Nom Complet</th><th>Password</th></tr>
+            </table>
+        </div></center>
+        <script>
+            var users = []
+
+
+            function add() {
+  var userNameIn1 = document.getElementById('in1').value;
+  var passwordIn2 = document.getElementById('in2').value;
+  var isUserExist = false;
+
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].username == userNameIn1) {
+        document.getElementById('s1').innerHTML = "This username already has an account";
+      break;
+    }
+  }
+
+  if (passwordIn2.length < 8) {
+    document.getElementById('s1').innerHTML = "Password must contain at least 8 characters";
+  } else {
+    var user = {};
+    user.username = userNameIn1;
+    user.password = passwordIn2;
+    users.push(user);
+    console.log(users);
+  }
+}
+
+function show() {
+  // Remove any existing rows from the table
+  var table = document.getElementById("table1");
+  table.innerHTML = "";
+
+  // Create a new row for each user
+  for (var i = 0; i < users.length; i++) {
+    // Check if this user already exists in the table
+    var existingRow = null;
+    var rows = table.getElementsByTagName("tr");
+    for (var j = 0; j < rows.length; j++) {
+      if (rows[j].getElementsByTagName("td")[0].innerHTML == users[i].username) {
+        existingRow = rows[j];
+        break;
+      }
+    }
+
+    // If this user doesn't exist in the table, add a new row for them
+    if (!existingRow) {
+      var tr = document.createElement("tr");
+      var td1 = document.createElement("td");
+      var td2 = document.createElement("td");
+      td1.append(users[i].username)
+      td2.append(users[i].password)
+      tr.append(td1);
+      tr.append(td2);
+      table.append(tr);
+    }
+  }
+}
+
+function showPass(){
+
+    var passValue = document.getElementById('in4');
+    if(passValue.type == 'text'){
+        passValue.type = 'password';
+    }else if(passValue.type == 'password'){
+        passValue.type = 'text';
+    }
+ }
+ function login(){
+    var userNameIn3 = document.getElementById('in3').value;
+    var passwordIn4 = document.getElementById('in4').value;
+    if(userNameIn3==''){
+document.getElementById('s2').innerHTML = "username must be filled out";
+        return false;
+    }else if(passwordIn4==''){
+document.getElementById('s2').innerHTML = "password must be filled out";
+        return false;
+    }
+    for(var i=0;i<users.length;i++){
+if(userNameIn3==users[i].username  && passwordIn4==users[i].password){   
+                return true;
+            }
+    }
+document.getElementById('s2').innerHTML = "password or username do not match";
+    return false;
+    }
+</script>
+    </body>
+</html>
